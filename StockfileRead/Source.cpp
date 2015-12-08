@@ -6,12 +6,26 @@ std::vector<std::string> split_str(std::string source, std::string delimiter);
 
 int main(int arc, char* arv) 
 {
+	std::string filename;
+	/*
+	This sets up our program to read our stocksymbol file.. the correct format for the file is as follows:
+		SYM $PRICE TIME(24HR)
+		eg. "GOG $10 1240"
+		each transaction should be seperated by a newline >> \n
+	*/
+	if (arc == 2) {
+		filename = arv[1];
+	}
+	else {
+		std::cout << "What file do you want to read from?" << std::endl;
+		std::cin >> filename;
+	}
 	std::ifstream stockFile;
 	//opens our file with read priv only
-	stockFile.open("C:\\test\\test.txt", std::ios::in);
+	stockFile.open(filename.c_str(), std::ios::in);
 	std::string line;
 	SymbolContainer sc;
-	
+	std::cin.clear();
 	int i = 0;
 	if (stockFile.is_open()) {
 		//read file line by line
@@ -30,6 +44,7 @@ int main(int arc, char* arv)
 }
 
 //tokenizes the string
+//c++ offers a way to do this, but the uses are trivial so we just made our own function. could probably use some more error checking, but it gets the job done.
 std::vector<std::string> split_str(std::string source, std::string delimiter) {
 	std::vector<std::string> split;
 	std::size_t pos;
